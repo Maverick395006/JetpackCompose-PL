@@ -1,7 +1,6 @@
 package com.example.jetpackcomposepl
 
 import android.os.Bundle
-import android.text.style.BackgroundColorSpan
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -24,7 +23,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,14 +40,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PreviewImageCard()
+            StylishTextPreview()
         }
     }
 
 }
 
+/**
+ * Part 4: Creating an Image Card Composable
+ */
+
 @Composable
-fun ImageCard(
+fun ImageCardComponent(
     painter: Painter,
     contentDescription: String,
     title: String,
@@ -96,7 +106,7 @@ fun ImageCard(
 
 @Preview(name = "Image Card", showSystemUi = true, showBackground = true)
 @Composable
-fun PreviewImageCard() {
+fun ImageCardPreview() {
     val painter = painterResource(id = R.drawable.img_piyush_radadiya)
     val title = "Piyush Radadiya"
     val description = "$title is an Android Developer"
@@ -105,6 +115,56 @@ fun PreviewImageCard() {
             .fillMaxWidth(0.5f)
             .padding(16.dp)
     ) {
-        ImageCard(painter = painter, contentDescription = description, title = title)
+        ImageCardComponent(painter = painter, contentDescription = description, title = title)
     }
+}
+
+/**
+ * Part 5: Styling Text
+ */
+
+@Composable
+fun StylishTextComponent() {
+    val fontFamily = FontFamily(
+        Font(R.font.rintexy_bold, FontWeight.Bold),
+        Font(R.font.rintexy_regular, FontWeight.Normal)
+    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Green, fontSize = 50.sp
+                    )
+                ) {
+                    append("M")
+                }
+                append("averick")
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Green, fontSize = 50.sp
+                    )
+                ) {
+                    append("U")
+                }
+                append("niverse")
+            },
+            color = Color.White,
+            fontSize = 30.sp,
+            fontFamily = fontFamily,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Preview(name = "Stylish Text", showSystemUi = true, showBackground = true)
+@Composable
+fun StylishTextPreview() {
+    StylishTextComponent()
 }
