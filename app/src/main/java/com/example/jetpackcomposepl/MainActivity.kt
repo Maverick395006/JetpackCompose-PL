@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Card
@@ -58,7 +60,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TxtBtnScaffoldPreview()
+            ListPreview()
         }
     }
 
@@ -294,4 +296,50 @@ fun TxtBtnScaffoldComponent() {
 @Composable
 fun TxtBtnScaffoldPreview() {
     TxtBtnScaffoldComponent()
+}
+
+/**
+ * Part 8: Lists
+ */
+
+@Composable
+fun ListComponent() {
+    LazyColumn {
+        itemsIndexed(
+            listOf(
+                "Java",
+                "Python",
+                "JavaScript",
+                "Ruby",
+                "PHP",
+                "C",
+                "C++",
+                "Swift",
+                "Dart",
+                "Scala",
+                "Rust",
+                "Perl",
+                "Kotlin",
+                "SQL",
+                "TypeScript",
+                "Objective-C"
+            )
+        ) { index, string ->
+            Text(
+                text = "$string",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
+            )
+        }
+    }
+}
+
+@Preview(name = "Stylish Text", showSystemUi = true, showBackground = true)
+@Composable
+fun ListPreview() {
+    ListComponent()
 }
