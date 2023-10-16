@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -51,6 +52,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.Dimension
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -60,7 +64,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ListPreview()
+            ConstraintLayoutPreview()
         }
     }
 
@@ -342,4 +346,56 @@ fun ListComponent() {
 @Composable
 fun ListPreview() {
     ListComponent()
+}
+
+/**
+ * Part 9: ConstraintLayout
+ */
+
+@Composable
+fun ConstraintLayoutComponent() {
+    val constraints = ConstraintSet {
+        val greenBox = createRefFor("greenbox")
+        val redBox = createRefFor("redbox")
+        val yellowBox = createRefFor("yellowbox")
+
+        constrain(greenBox) {
+            top.linkTo(parent.top)
+            start.linkTo(parent.start)
+            width = Dimension.value(40.dp)
+            height = Dimension.value(40.dp)
+        }
+
+        constrain(redBox) {
+            top.linkTo(greenBox.bottom)
+            start.linkTo(greenBox.end)
+            width = Dimension.value(40.dp)
+            height = Dimension.value(40.dp)
+        }
+
+        constrain(yellowBox) {
+            top.linkTo(redBox.bottom)
+            start.linkTo(redBox.end)
+            end.linkTo(parent.end)
+            width = Dimension.fillToConstraints
+            height = Dimension.value(40.dp)
+        }
+
+    }
+
+    ConstraintLayout(constraintSet = constraints, modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.background(Color.Green)
+            .layoutId("greenbox"))
+        Box(modifier = Modifier.background(Color.Red)
+            .layoutId("redbox"))
+        Box(modifier = Modifier.background(Color.Yellow)
+            .layoutId("yellowbox"))
+    }
+
+}
+
+@Preview(name = "Stylish Text", showSystemUi = true, showBackground = true)
+@Composable
+fun ConstraintLayoutPreview() {
+    ConstraintLayoutComponent()
 }
