@@ -26,6 +26,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
@@ -384,12 +385,21 @@ fun ConstraintLayoutComponent() {
     }
 
     ConstraintLayout(constraintSet = constraints, modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.background(Color.Green)
-            .layoutId("greenbox"))
-        Box(modifier = Modifier.background(Color.Red)
-            .layoutId("redbox"))
-        Box(modifier = Modifier.background(Color.Yellow)
-            .layoutId("yellowbox"))
+        Box(
+            modifier = Modifier
+                .background(Color.Green)
+                .layoutId("greenbox")
+        )
+        Box(
+            modifier = Modifier
+                .background(Color.Red)
+                .layoutId("redbox")
+        )
+        Box(
+            modifier = Modifier
+                .background(Color.Yellow)
+                .layoutId("yellowbox")
+        )
     }
 
 }
@@ -398,4 +408,26 @@ fun ConstraintLayoutComponent() {
 @Composable
 fun ConstraintLayoutPreview() {
     ConstraintLayoutComponent()
+}
+
+/**
+ * Part 10: Side Effect handlers
+ */
+
+@Composable
+fun SideEffectHandlersComponent() {
+    //Launched Effect
+    var text by remember {
+        mutableStateOf("")
+    }
+    LaunchedEffect(key1 = text) {
+        delay(1000L)
+        print("The text is $text")
+    }
+}
+
+@Preview(name = "Side-Effect Handler", showSystemUi = true, showBackground = true)
+@Composable
+fun SideEffectHandlersPreview() {
+    SideEffectHandlersComponent()
 }
