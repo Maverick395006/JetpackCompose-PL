@@ -1,6 +1,7 @@
 package com.example.jetpackcomposepl
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -31,6 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -65,7 +67,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SideEffectHandlersPreview()
+            App()
         }
     }
 
@@ -430,4 +432,28 @@ fun SideEffectHandlersComponent() {
 @Composable
 fun SideEffectHandlersPreview() {
     SideEffectHandlersComponent()
+}
+
+// rememberUpdatedState
+
+@Composable
+fun App() {
+    var counter = remember {
+        mutableStateOf(0)
+    }
+    LaunchedEffect(key1 = Unit) {
+        delay(2000L)
+        counter.value = 10
+    }
+    Counter(counter.value)
+}
+
+@Composable
+fun Counter(value: Int) {
+    val state = rememberUpdatedState(newValue = value)
+    LaunchedEffect(key1 = Unit) {
+        delay(4000L)
+        Log.d("funnie", state.value.toString())
+    }
+    Text(text = state.value.toString())
 }
