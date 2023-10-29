@@ -13,6 +13,6 @@ fun RememberUpdatedStateDemo(
     val updatedOnTimeOut by rememberUpdatedState(newValue = onTimeOut)
     LaunchedEffect(true){
         delay(3000L)
-        onTimeOut()
+        updatedOnTimeOut()
     }
 }
