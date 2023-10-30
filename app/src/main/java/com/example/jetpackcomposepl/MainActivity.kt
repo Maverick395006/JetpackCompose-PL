@@ -25,12 +25,16 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TextField
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
@@ -67,7 +71,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            App()
+            ProduceStateComponent()
         }
     }
 
@@ -456,4 +460,28 @@ fun Counter(value: Int) {
         Log.d("funnie", state.value.toString())
     }
     Text(text = state.value.toString())
+}
+
+// produceState
+
+@Composable
+fun ProduceStateComponent() {
+    val state = produceState(initialValue = 0){
+        for (i in 1..10) {
+            delay(1000L)
+            value++
+        }
+    }
+    Text(
+        modifier = Modifier.fillMaxSize(),
+        textAlign = TextAlign.Center,
+        text = state.value.toString(),
+        style = MaterialTheme.typography.headlineLarge
+    )
+}
+
+@Preview(name = "produceState", showSystemUi = true, showBackground = true)
+@Composable
+fun ProduceStatePreview() {
+    ProduceStateComponent()
 }
